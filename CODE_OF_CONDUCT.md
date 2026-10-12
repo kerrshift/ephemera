@@ -33,7 +33,7 @@ project elsewhere.
 ## Reporting
 
 If something happens that makes you or someone else uncomfortable, please tell the maintainers privately at
-**[CONDUCT CONTACT EMAIL]**. Every report will be reviewed and handled promptly and confidentially.
+**[sahilgangurde08@gmail.com](mailto:sahilgangurde08@gmail.com)**. Every report will be reviewed and handled promptly and confidentially.
 
 ## Enforcement
 
