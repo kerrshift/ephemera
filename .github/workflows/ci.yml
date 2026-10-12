@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Build static site and registry
+        run: npm run build
+
+      - name: Check the export
+        run: |
+          for f in out/index.html out/404.html out/sitemap.xml out/robots.txt out/llms.txt out/r/all.json out/r/button.json; do
+            test -s "$f" || { echo "missing $f"; exit 1; }
+          done

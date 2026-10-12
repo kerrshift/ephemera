@@ -1,0 +1,16 @@
+{
+  // Ephemera is a static site: `npm run build` writes it to ./out and Cloudflare serves those files.
+  // Deploy: `npm run deploy` (or connect the repo in Cloudflare → Workers & Pages → Workers Builds).
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ephemera",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./out",
+    // /components/button serves components/button.html
+    "html_handling": "auto-trailing-slash",
+    // unknown paths serve out/404.html with a 404 status
+    "not_found_handling": "404-page"
+  },
+  // kerrshift.com is on Cloudflare, so the deploy creates the DNS record and certificate for this subdomain.
+  "routes": [{ "pattern": "ephemera.kerrshift.com", "custom_domain": true }]
+}

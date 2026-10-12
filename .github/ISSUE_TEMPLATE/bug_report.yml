@@ -1,0 +1,40 @@
+name: Bug report
+description: Something looks wrong or doesn't work.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting! Please check existing issues first.
+  - type: input
+    id: component
+    attributes:
+      label: Component
+      description: Which component (or the theme / website)?
+      placeholder: e.g. Select
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead? Screenshots help a lot.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How to reproduce
+      description: Minimal code or steps. A link to a repo or sandbox is ideal.
+      render: tsx
+  - type: dropdown
+    id: paper
+    attributes:
+      label: Paper type
+      multiple: true
+      options: [cream, kraft, ledger, blueprint, newsprint, carbon, not relevant]
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, framework and versions (React, Tailwind, shadcn CLI, Radix or Base UI project).
+      placeholder: Chrome 140, Next.js 16, Tailwind 4.1, shadcn base-nova

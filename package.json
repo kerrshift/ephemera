@@ -2,15 +2,49 @@
   "name": "ephemera",
   "version": "0.1.0",
   "private": true,
+  "description": "A paper design system for React: shadcn/ui-compatible components styled as stationery.",
+  "license": "MIT",
+  "author": {
+    "name": "KerrShift",
+    "url": "https://kerrshift.com"
+  },
+  "homepage": "https://ephemera.kerrshift.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kerrshift/ephemera.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kerrshift/ephemera/issues"
+  },
+  "keywords": [
+    "design-system",
+    "react",
+    "shadcn",
+    "shadcn-ui",
+    "shadcn-registry",
+    "tailwindcss",
+    "radix-ui",
+    "components",
+    "ui",
+    "paper"
+  ],
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "dev": "node scripts/build-registry.mjs && next dev",
+    "build": "node scripts/build-registry.mjs && next build",
+    "registry": "node scripts/build-registry.mjs",
+    "typecheck": "next typegen && tsc --noEmit",
+    "preview": "wrangler dev",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "next": "16.4.0",
+    "radix-ui": "^1.8.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "shiki": "^4.5.0"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
@@ -18,6 +52,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.149.0"
   }
 }
