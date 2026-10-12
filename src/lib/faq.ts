@@ -14,7 +14,7 @@ export const faq = [
   },
   {
     q: "How do I install it?",
-    a: "Run `npx shadcn@latest add https://ephemera.kerrshift.com/r/all.json` to add the theme and every core component, or add components one at a time, such as `/r/button.json`. Then import the theme CSS and set data-paper=\"cream\" (or kraft, ledger, blueprint, newsprint, carbon) on your html element.",
+    a: "Run `npx shadcn@latest add https://ephemera.kerrshift.com/r/all.json`. It merges the paper theme into your global CSS, installs the fonts and adds every core component. Then set data-paper=\"cream\" (or kraft, ledger, blueprint, newsprint, carbon) on your html element. You can also add components one at a time, such as `/r/button.json`.",
   },
   {
     q: "Is Ephemera free and open source?",

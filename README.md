@@ -23,24 +23,15 @@ Ephemera needs a React project with [Tailwind CSS v4](https://tailwindcss.com) a
 [shadcn CLI](https://ui.shadcn.com/docs/cli) (`npx shadcn@latest init`).
 
 ```bash
-# the theme and every core component
+# the paper theme, its fonts and every core component
 npx shadcn@latest add https://ephemera.kerrshift.com/r/all.json
 
 # or one at a time
-npx shadcn@latest add https://ephemera.kerrshift.com/r/paper-theme.json
 npx shadcn@latest add https://ephemera.kerrshift.com/r/button.json
 ```
 
-If your project already has shadcn components with the same names (new projects ship a `button.tsx`), the CLI asks
-before replacing them. Answer `y`, or add `--overwrite` to replace them all with the paper versions.
-
-Import the theme in your global CSS and pick a paper:
-
-```css
-/* app/globals.css */
-@import "tailwindcss";
-@import "../styles/paper.css";
-```
+The CLI merges the paper theme into your global CSS and installs the fonts (`next/font` in Next.js, `@fontsource`
+packages elsewhere). There's nothing to import by hand. Pick a paper:
 
 ```tsx
 <html data-paper="cream">  {/* cream · kraft · ledger · blueprint · newsprint · carbon */}
@@ -55,9 +46,14 @@ import { Button } from "@/components/ui/button";
 <Button variant="paper">Save draft</Button>
 ```
 
-### Shorter install names
+If your project already has shadcn components with the same names (new projects ship a `button.tsx`), the CLI asks
+before replacing them. Answer `y`, or add `--overwrite` to replace them all with the paper versions.
 
-Add the registry to your `components.json`:
+### Short names
+
+Ephemera is being added to the [shadcn registry directory](https://ui.shadcn.com/docs/directory) as `@ephemera`.
+Once it's listed, `npx shadcn@latest add @ephemera/button` works with no configuration. Until then, add the namespace
+to your `components.json`:
 
 ```json
 {
@@ -67,13 +63,11 @@ Add the registry to your `components.json`:
 }
 ```
 
-Then run `npx shadcn@latest add @ephemera/button`.
-
 ## What's included
 
 **Paper Theme** – six paper types as CSS variables (`--paper`, `--ink`, `--pen`, `--rule`…), a `.paper` grain
-utility and `.paper-ruled` notebook lines. It also sets the standard shadcn variables, so components you already have
-pick up the paper colors.
+utility and `.paper-ruled` notebook lines, plus five fonts (Fraunces, IBM Plex Mono, Courier Prime, Caveat, Anton). It
+also sets the standard shadcn variables, so components you already have pick up the paper colors.
 
 **Core (28)** – built on [Radix](https://www.radix-ui.com) for keyboard and screen reader support.
 

@@ -5,9 +5,9 @@
   "items": [
     {
       "name": "paper-theme",
-      "type": "registry:file",
+      "type": "registry:theme",
       "title": "Paper Theme",
-      "description": "Six paper types as CSS variables (Cream, Kraft, Ledger, Blueprint, Newsprint, Carbon). Also re-skins existing shadcn/ui components.",
+      "description": "Six paper types as CSS variables (Cream, Kraft, Ledger, Blueprint, Newsprint, Carbon), merged into your global CSS, plus the five Ephemera fonts. Also re-skins existing shadcn/ui components.",
       "categories": [
         "theme"
       ],
@@ -17,7 +17,120 @@
           "type": "registry:file",
           "target": "styles/paper.css"
         }
+      ],
+      "registryDependencies": [
+        "font-fraunces",
+        "font-ibm-plex-mono",
+        "font-courier-prime",
+        "font-caveat",
+        "font-anton"
       ]
+    },
+    {
+      "name": "font-fraunces",
+      "type": "registry:font",
+      "title": "Fraunces (font)",
+      "description": "Display serif for titles, letters and cards.",
+      "categories": [
+        "font"
+      ],
+      "font": {
+        "family": "'Fraunces', Georgia, serif",
+        "provider": "google",
+        "import": "Fraunces",
+        "variable": "--font-display",
+        "subsets": [
+          "latin"
+        ],
+        "dependency": "@fontsource/fraunces"
+      }
+    },
+    {
+      "name": "font-ibm-plex-mono",
+      "type": "registry:font",
+      "title": "IBM Plex Mono (font)",
+      "description": "Thermal-receipt monospace for receipts, toasts and code.",
+      "categories": [
+        "font"
+      ],
+      "font": {
+        "family": "'IBM Plex Mono', ui-monospace, monospace",
+        "provider": "google",
+        "import": "IBM_Plex_Mono",
+        "variable": "--font-receipt",
+        "subsets": [
+          "latin"
+        ],
+        "dependency": "@fontsource/ibm-plex-mono",
+        "weight": [
+          "400",
+          "700"
+        ]
+      }
+    },
+    {
+      "name": "font-courier-prime",
+      "type": "registry:font",
+      "title": "Courier Prime (font)",
+      "description": "Typewriter face for labels, buttons and inputs.",
+      "categories": [
+        "font"
+      ],
+      "font": {
+        "family": "'Courier Prime', 'Courier New', monospace",
+        "provider": "google",
+        "import": "Courier_Prime",
+        "variable": "--font-type",
+        "subsets": [
+          "latin"
+        ],
+        "dependency": "@fontsource/courier-prime",
+        "weight": [
+          "400",
+          "700"
+        ]
+      }
+    },
+    {
+      "name": "font-caveat",
+      "type": "registry:font",
+      "title": "Caveat (font)",
+      "description": "Handwriting for sticky notes, tooltips and captions.",
+      "categories": [
+        "font"
+      ],
+      "font": {
+        "family": "'Caveat', 'Segoe Print', cursive",
+        "provider": "google",
+        "import": "Caveat",
+        "variable": "--font-hand",
+        "subsets": [
+          "latin"
+        ],
+        "dependency": "@fontsource/caveat"
+      }
+    },
+    {
+      "name": "font-anton",
+      "type": "registry:font",
+      "title": "Anton (font)",
+      "description": "Condensed capitals for rubber stamps.",
+      "categories": [
+        "font"
+      ],
+      "font": {
+        "family": "'Anton', Impact, sans-serif",
+        "provider": "google",
+        "import": "Anton",
+        "variable": "--font-stamp",
+        "subsets": [
+          "latin"
+        ],
+        "dependency": "@fontsource/anton",
+        "weight": [
+          "400"
+        ]
+      }
     },
     {
       "name": "button",

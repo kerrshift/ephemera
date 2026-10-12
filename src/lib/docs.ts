@@ -15,11 +15,10 @@ export type Doc = {
 
 const extra: Record<string, Pick<Doc, "usage" | "props" | "notes">> = {
   "paper-theme": {
-    usage: `/* app/globals.css */
-@import "tailwindcss";
-@import "../styles/paper.css";
+    usage: `# installs the theme (merged into your global CSS) and its five fonts
+npx shadcn@latest add https://ephemera.kerrshift.com/r/paper-theme.json
 
-/* app/layout.tsx */
+/* app/layout.tsx: pick a paper */
 <html data-paper="cream">  {/* cream | kraft | ledger | blueprint | newsprint | carbon */}
 
 /* any element can switch paper */
@@ -34,7 +33,7 @@ const extra: Record<string, Pick<Doc, "usage" | "props" | "notes">> = {
       { name: "--edge, --rule, --margin, --danger", type: "color", description: "Borders, ruled lines, margin line, destructive ink." },
     ],
     notes:
-      "The theme also sets the standard shadcn/ui variables (--background, --primary, --border…), so components you already have pick up the paper colors too. Tip: add \"registries\": { \"@ephemera\": \"<this site>/r/{name}.json\" } to components.json and install with npx shadcn add @ephemera/button.",
+      "The theme also sets the standard shadcn/ui variables (--background, --primary, --border…), so components you already have pick up the paper colors too. The shadcn CLI merges the theme straight into your global CSS and installs the fonts (next/font in Next.js, @fontsource packages elsewhere), so there's nothing to import by hand. The source stylesheet is shown below.",
   },
   button: {
     usage: `<Button>Send letter</Button>
@@ -297,12 +296,13 @@ toast("Couldn't send", { tone: "danger" });`,
   },
 };
 
-export const docs: Doc[] = registry.items.map((item) => ({
+// Fonts are installable registry items but have no docs page of their own.
+export const docs: Doc[] = registry.items.filter((item) => item.type !== "registry:font").map((item) => ({
   slug: item.name,
   group: item.categories[0] as Doc["group"],
   title: item.title,
   description: item.description,
-  file: item.files[0].path,
+  file: item.files![0].path,
   ...(extra[item.name] ?? moreDocs[item.name]),
 }));
 

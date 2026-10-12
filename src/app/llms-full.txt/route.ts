@@ -40,9 +40,11 @@ ${site.name} (also called ${site.alternateNames.join(", ")}) was created by ${si
 
 ## Setup
 
-1. Install the theme and every core component: \`${install("all")}\`
-2. Import the theme in global CSS: \`@import "../styles/paper.css";\`
-3. Set a paper type on <html> or any element: \`data-paper="cream"\` (cream, kraft, ledger, blueprint, newsprint, carbon).
+1. Install the theme (merged into your global CSS), its fonts and every core component: \`${install("all")}\`
+2. Set a paper type on <html> or any element: \`data-paper="cream"\` (cream, kraft, ledger, blueprint, newsprint, carbon).
+3. Short names via the shadcn registry directory (or a "@ephemera" entry in components.json registries): \`npx shadcn@latest add @ephemera/button\`.
+
+Fonts (installed automatically with the theme): --font-display (Fraunces), --font-receipt (IBM Plex Mono), --font-type (Courier Prime), --font-hand (Caveat), --font-stamp (Anton).
 
 Components share the names and APIs of shadcn/ui. Interactive ones are built on Radix (\`radix-ui\`). Theme variables: --paper, --paper-raised, --paper-sunk, --ink, --ink-muted, --ink-faint, --pen, --pen-ink, --edge, --rule, --margin, --danger.
 
