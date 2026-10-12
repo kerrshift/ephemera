@@ -15,7 +15,7 @@ They share shadcn's APIs, so you can swap them in one at a time.
 [![CI](https://github.com/kerrshift/ephemera/actions/workflows/ci.yml/badge.svg)](https://github.com/kerrshift/ephemera/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2a3cf5.svg)](LICENSE)
 
-![Ephemera: a design system printed on paper](https://ephemera.kerrshift.com/opengraph-image)
+![Ephemera: a design system printed on paper](.github/assets/ephemera.png)
 
 ## Quick start
 
