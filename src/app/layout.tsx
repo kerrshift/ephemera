@@ -20,8 +20,9 @@ export const metadata: Metadata = {
   description: site.description,
   applicationName: site.name,
   keywords: [...site.keywords],
-  authors: [{ name: site.org.name, url: site.org.url }],
-  creator: site.org.name,
+  // creator credit lives in metadata and structured data only, not in the visible page
+  authors: [{ name: site.creator.name, url: site.creator.url }, { name: site.org.name, url: site.org.url }],
+  creator: site.creator.name,
   publisher: site.org.name,
   category: "technology",
   alternates: { canonical: "/" },

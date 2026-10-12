@@ -42,9 +42,9 @@ const line = (i) => `- [${i.title}](${site}/components/${i.name}): ${i.descripti
 const group = (cat) => registry.items.filter((i) => i.categories?.includes(cat)).map(line).join("\n");
 writeFileSync(
   "public/llms.txt",
-  `# Ephemera
+  `# Ephemera: the paper UI design system for React
 
-> A paper design system for React. shadcn/ui-compatible components (same APIs) styled as stationery: typewriter buttons, ruled inputs, folder tabs, ledger tables, label-maker badges, letter dialogs and receipt toasts. Built on Radix and Tailwind CSS v4. MIT licensed.
+> A paper UI design system for React. shadcn/ui-compatible components (same APIs) styled as stationery: typewriter buttons, ruled inputs, folder tabs, ledger tables, label-maker badges, letter dialogs and receipt toasts. Built on Radix and Tailwind CSS v4. MIT licensed.
 
 Setup:
 1. \`npx shadcn@latest add ${site}/r/paper-theme.json\`, then \`@import\` the installed styles/paper.css in your global CSS.
@@ -53,7 +53,10 @@ Setup:
 
 Theme variables: --paper, --paper-raised, --paper-sunk, --ink, --ink-muted, --ink-faint, --pen, --pen-ink, --edge, --rule, --margin, --danger. Utility classes: .paper (grain), .paper-ruled (notebook lines). The theme also sets the standard shadcn variables (--background, --primary, --border…).
 
-Each component's JSON (${site}/r/<name>.json) contains its full source.
+Each component's JSON (${site}/r/<name>.json) contains its full source. Complete documentation in one file: ${site}/llms-full.txt
+
+Also known as: Paper UI, paper design system, paper UI kit, paper UX components, skeuomorphic stationery UI.
+Created by Sahil Gangurde (https://lostmartian.in, https://github.com/lostmartian). Published by KerrShift (https://kerrshift.com). Source: https://github.com/kerrshift/ephemera. License: MIT.
 
 ## Theme
 ${group("theme")}

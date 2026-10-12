@@ -1,0 +1,13 @@
+/* TEAM */
+Creator: Sahil Gangurde
+Site: https://lostmartian.in
+GitHub: https://github.com/lostmartian
+
+/* PUBLISHER */
+KerrShift: https://kerrshift.com
+
+/* SITE */
+Project: Ephemera, a paper UI design system for React
+Source: https://github.com/kerrshift/ephemera
+License: MIT
+Built with: Next.js, React, Tailwind CSS, Radix, shadcn registry

@@ -4,38 +4,69 @@ import { InstallCommand } from "@/components/site";
 import { DeskPieces, CardPreview } from "@/components/desk";
 import { PaperPicker, PaperProvider, PaperSheet, Showcase } from "@/components/paper-demos";
 import { JsonLd } from "@/components/json-ld";
-import { site } from "@/lib/site";
+import { creatorPerson, orgEntity, site } from "@/lib/site";
+import { faq } from "@/lib/faq";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/registry/ephemera/accordion";
+
+const coreCount = docs.filter((d) => d.group === "core").length;
+const extrasCount = docs.filter((d) => d.group === "extras").length;
 
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
-    {
-      "@type": "Organization",
-      "@id": `${site.org.url}/#organization`,
-      name: site.org.name,
-      url: site.org.url,
-      description: site.org.description,
-    },
+    orgEntity,
+    creatorPerson,
     {
       "@type": "WebSite",
       "@id": `${site.url}/#website`,
       name: site.name,
+      alternateName: [...site.alternateNames],
       url: site.url,
       description: site.description,
-      publisher: { "@id": `${site.org.url}/#organization` },
+      creator: { "@id": creatorPerson["@id"] },
+      publisher: { "@id": orgEntity["@id"] },
       inLanguage: "en",
     },
     {
       "@type": "SoftwareSourceCode",
-      name: site.name,
+      "@id": `${site.url}/#software`,
+      name: `${site.name} — Paper UI Design System`,
+      alternateName: [...site.alternateNames],
       description: site.description,
       url: site.url,
       codeRepository: site.repo,
       license: "https://opensource.org/licenses/MIT",
       programmingLanguage: ["TypeScript", "React", "CSS"],
       runtimePlatform: "Web browser",
+      applicationCategory: "DeveloperApplication",
       keywords: site.keywords.join(", "),
-      author: { "@id": `${site.org.url}/#organization` },
+      isAccessibleForFree: true,
+      version: "0.1.0",
+      about: [
+        { "@type": "Thing", name: "Paper UI" },
+        { "@type": "Thing", name: "Design system" },
+        { "@type": "Thing", name: "Skeuomorphic design" },
+        { "@type": "Thing", name: "shadcn/ui" },
+      ],
+      hasPart: docs.map((d) => ({
+        "@type": "SoftwareSourceCode",
+        name: `${d.title} (${site.name})`,
+        url: `${site.url}/components/${d.slug}`,
+        description: d.description,
+      })),
+      creator: { "@id": creatorPerson["@id"] },
+      author: { "@id": creatorPerson["@id"] },
+      publisher: { "@id": orgEntity["@id"] },
+      maintainer: { "@id": orgEntity["@id"] },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${site.url}/#faq`,
+      mainEntity: faq.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     },
   ],
 };
@@ -83,7 +114,7 @@ export default function Home() {
       <JsonLd data={structuredData} />
       <section className="mx-auto max-w-6xl px-4 pb-10 pt-10 sm:px-6 sm:pt-16">
         <p className={eyebrow} style={type}>
-          Free · open source · shadcn compatible
+          Paper UI design system · free · open source · shadcn compatible
         </p>
         <h1 className="mt-5 max-w-4xl font-head text-[46px] font-bold leading-[0.93] tracking-[-0.045em] sm:text-[88px]">
           A design system printed on <span className="marker">paper.</span>
@@ -173,6 +204,33 @@ export default function Home() {
       </section>
       <section className="mx-auto max-w-6xl px-4 sm:px-6">
         <Grid items={extras} />
+      </section>
+
+      <section id="faq" className="mx-auto max-w-6xl scroll-mt-6 px-4 pt-24 sm:px-6">
+        <div className="grid gap-8 lg:grid-cols-[1fr_1.6fr]">
+          <div>
+            <p className="text-[12px] uppercase tracking-[0.25em] text-accent" style={{ fontFamily: "var(--font-type)" }}>
+              Questions
+            </p>
+            <h2 className="mt-3 font-head text-[44px] font-bold leading-none tracking-[-0.04em]">About paper UI</h2>
+            <p className="mt-3 max-w-sm text-muted">
+              Ephemera is a paper UI design system: {coreCount} core components and {extrasCount} extras for React and
+              shadcn/ui, styled after real stationery.
+            </p>
+          </div>
+          <div data-paper="cream" className="paper rounded-[4px] px-6 py-2 shadow-[0_14px_30px_-14px_rgb(0_0_0/.35)]">
+            <Accordion type="single" collapsible defaultValue="faq-0">
+              {faq.map((f, i) => (
+                <AccordionItem key={f.q} value={`faq-${i}`}>
+                  <AccordionTrigger>
+                    <h3>{f.q}</h3>
+                  </AccordionTrigger>
+                  <AccordionContent>{f.a}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </div>
       </section>
     </>
   );

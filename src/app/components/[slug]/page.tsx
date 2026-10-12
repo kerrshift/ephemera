@@ -7,7 +7,7 @@ import { codeToHtml } from "shiki";
 import { docs, exportName, exportsOf, getDoc, sections } from "@/lib/docs";
 import { CopyButton, Demo, InstallCommand } from "@/components/site";
 import { JsonLd } from "@/components/json-ld";
-import { site } from "@/lib/site";
+import { creatorPerson, orgEntity, site } from "@/lib/site";
 
 export const dynamicParams = false;
 
@@ -18,9 +18,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/components/[slug]">): Promise<Metadata> {
   const doc = getDoc((await params).slug);
   if (!doc) return {};
-  const kind = doc.group === "theme" ? "theme" : "component";
-  const title = doc.group === "theme" ? doc.title : `${doc.title} component`;
-  const description = `${doc.description} A free, open-source paper-styled ${kind} for React and shadcn/ui, built with Tailwind CSS.`;
+  // e.g. "Paper Slider Component for React & shadcn/ui"
+  const title = doc.group === "theme" ? "Paper Theme for shadcn/ui & Tailwind" : `Paper ${doc.title} Component for React & shadcn/ui`;
+  const description =
+    doc.group === "theme"
+      ? `${doc.description} The theme behind Ephemera, a free, open-source paper UI design system for React and shadcn/ui.`
+      : `${doc.description} A paper-style ${doc.title.toLowerCase()} from Ephemera, the free, open-source paper UI design system for React and shadcn/ui, built with Tailwind CSS${doc.group === "core" ? " and Radix" : ""}.`;
   const url = `/components/${doc.slug}`;
   return {
     title,
@@ -69,18 +72,38 @@ export default async function ComponentPage({ params }: PageProps<"/components/[
   const prev = docs[(i - 1 + docs.length) % docs.length];
   const next = docs[(i + 1) % docs.length];
 
-  const breadcrumbs = {
+  const structuredData = {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: site.name, item: site.url },
-      { "@type": "ListItem", position: 2, name: doc.title, item: `${site.url}/components/${doc.slug}` },
+    "@graph": [
+      orgEntity,
+      creatorPerson,
+      {
+        "@type": "TechArticle",
+        "@id": `${site.url}/components/${doc.slug}#article`,
+        headline: `${doc.title} — paper ${doc.group === "theme" ? "theme" : "component"} for React`,
+        description: doc.description,
+        url: `${site.url}/components/${doc.slug}`,
+        image: `${site.url}/components/${doc.slug}/opengraph-image`,
+        inLanguage: "en",
+        keywords: [`paper ${doc.title.toLowerCase()}`, `${doc.title} component`, ...site.keywords.slice(0, 8)].join(", "),
+        about: { "@type": "SoftwareSourceCode", name: `${doc.title} (${site.name})`, codeRepository: site.repo, programmingLanguage: "TypeScript" },
+        isPartOf: { "@id": `${site.url}/#website` },
+        author: { "@id": creatorPerson["@id"] },
+        publisher: { "@id": orgEntity["@id"] },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: site.name, item: site.url },
+          { "@type": "ListItem", position: 2, name: doc.title, item: `${site.url}/components/${doc.slug}` },
+        ],
+      },
     ],
   };
 
   return (
     <div className="mx-auto grid max-w-6xl gap-10 px-4 pb-10 pt-6 sm:px-6 lg:grid-cols-[180px_minmax(0,1fr)]">
-      <JsonLd data={breadcrumbs} />
+      <JsonLd data={structuredData} />
       <aside className="hidden lg:block">
         <div className="sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto pb-6">
           {[

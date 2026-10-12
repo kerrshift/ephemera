@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use Ephemera in your work, please cite it as below."
+type: software
+title: "Ephemera: a paper UI design system for React"
+abstract: >-
+  Ephemera is a free, open-source paper UI design system for React:
+  shadcn/ui-compatible components styled as stationery, with six paper themes.
+authors:
+  - given-names: Sahil
+    family-names: Gangurde
+    alias: lostmartian
+    website: "https://lostmartian.in"
+  - name: KerrShift
+    website: "https://kerrshift.com"
+repository-code: "https://github.com/kerrshift/ephemera"
+url: "https://ephemera.kerrshift.com"
+license: MIT
+version: 0.1.0
+date-released: "2026-10-12"
+keywords:
+  - paper UI
+  - paper UX
+  - design system
+  - React
+  - shadcn/ui
+  - Tailwind CSS
+  - skeuomorphic UI

@@ -2,12 +2,18 @@
   "name": "ephemera",
   "version": "0.1.0",
   "private": true,
-  "description": "A paper design system for React: shadcn/ui-compatible components styled as stationery.",
+  "description": "Ephemera: a paper UI design system for React. shadcn/ui-compatible components styled as stationery.",
   "license": "MIT",
   "author": {
     "name": "KerrShift",
     "url": "https://kerrshift.com"
   },
+  "contributors": [
+    {
+      "name": "Sahil Gangurde",
+      "url": "https://lostmartian.in"
+    }
+  ],
   "homepage": "https://ephemera.kerrshift.com",
   "repository": {
     "type": "git",
@@ -17,6 +23,10 @@
     "url": "https://github.com/kerrshift/ephemera/issues"
   },
   "keywords": [
+    "paper-ui",
+    "paper-ux",
+    "paper-design-system",
+    "skeuomorphic",
     "design-system",
     "react",
     "shadcn",
@@ -25,8 +35,7 @@
     "tailwindcss",
     "radix-ui",
     "components",
-    "ui",
-    "paper"
+    "ui"
   ],
   "engines": {
     "node": ">=20.9.0"

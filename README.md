@@ -1,8 +1,8 @@
-# Ephemera
+# Ephemera — Paper UI Design System for React
 
 **A design system printed on paper.**
 
-Ephemera is a free, open-source design system for React. Its components look like stationery: buttons that press like
+Ephemera is a free, open-source **paper UI design system** for React. Its components look like real stationery: buttons that press like
 typewriter keys, inputs on ruled lines, folder tabs, ledger tables, label-maker badges, dialogs that arrive like
 letters and toasts that print like receipts. Six paper types switch with a single attribute.
 
@@ -128,5 +128,5 @@ Bug reports, component ideas and pull requests are welcome. Please read [CONTRIB
 
 [MIT](LICENSE) © [KerrShift](https://kerrshift.com)
 
-Ephemera is made by [KerrShift](https://kerrshift.com), an applied intelligence lab building instruments for
-autonomous software.
+Created by [Sahil Gangurde](https://lostmartian.in) ([@lostmartian](https://github.com/lostmartian)) and published by
+[KerrShift](https://kerrshift.com), an applied intelligence lab building instruments for autonomous software.
