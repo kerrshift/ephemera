@@ -31,6 +31,9 @@ npx shadcn@latest add https://ephemera.kerrshift.com/r/paper-theme.json
 npx shadcn@latest add https://ephemera.kerrshift.com/r/button.json
 ```
 
+If your project already has shadcn components with the same names (new projects ship a `button.tsx`), the CLI asks
+before replacing them. Answer `y`, or add `--overwrite` to replace them all with the paper versions.
+
 Import the theme in your global CSS and pick a paper:
 
 ```css
