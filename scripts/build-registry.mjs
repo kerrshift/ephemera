@@ -126,7 +126,7 @@ writeFileSync(
 Setup:
 1. \`npx shadcn@latest add ${site}/r/all.json\` installs the paper theme (merged into your global CSS), its five fonts and every core component. Or install single items, e.g. \`npx shadcn@latest add ${site}/r/button.json\`.
 2. Put \`data-paper="cream"\` on <html> (or any element). Paper types: cream, kraft, ledger, blueprint, newsprint, carbon.
-3. Short names via the shadcn registry directory (or a "@ephemera" entry in components.json registries): \`npx shadcn@latest add @ephemera/button\`.
+3. Ephemera is listed in the shadcn registry directory as @ephemera, so short names work with no setup: \`npx shadcn@latest add @ephemera/all\` or \`npx shadcn@latest add @ephemera/button\`.
 
 Theme variables: --paper, --paper-raised, --paper-sunk, --ink, --ink-muted, --ink-faint, --pen, --pen-ink, --edge, --rule, --margin, --danger. Utility classes: .paper (grain), .paper-ruled (notebook lines). The theme also sets the standard shadcn variables (--background, --primary, --border…). Fonts: --font-display (Fraunces), --font-receipt (IBM Plex Mono), --font-type (Courier Prime), --font-hand (Caveat), --font-stamp (Anton).
 

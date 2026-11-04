@@ -42,7 +42,7 @@ ${site.name} (also called ${site.alternateNames.join(", ")}) was created by ${si
 
 1. Install the theme (merged into your global CSS), its fonts and every core component: \`${install("all")}\`
 2. Set a paper type on <html> or any element: \`data-paper="cream"\` (cream, kraft, ledger, blueprint, newsprint, carbon).
-3. Short names via the shadcn registry directory (or a "@ephemera" entry in components.json registries): \`npx shadcn@latest add @ephemera/button\`.
+3. Ephemera is listed in the shadcn registry directory as @ephemera, so short names work with no setup: \`npx shadcn@latest add @ephemera/button\`.
 
 Fonts (installed automatically with the theme): --font-display (Fraunces), --font-receipt (IBM Plex Mono), --font-type (Courier Prime), --font-hand (Caveat), --font-stamp (Anton).
 

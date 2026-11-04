@@ -51,16 +51,12 @@ before replacing them. Answer `y`, or add `--overwrite` to replace them all with
 
 ### Short names
 
-Ephemera is being added to the [shadcn registry directory](https://ui.shadcn.com/docs/directory) as `@ephemera`.
-Once it's listed, `npx shadcn@latest add @ephemera/button` works with no configuration. Until then, add the namespace
-to your `components.json`:
+Ephemera is listed in the [shadcn registry directory](https://ui.shadcn.com/docs/directory) as `@ephemera`, so short
+names work with no configuration:
 
-```json
-{
-  "registries": {
-    "@ephemera": "https://ephemera.kerrshift.com/r/{name}.json"
-  }
-}
+```bash
+npx shadcn@latest add @ephemera/all       # theme, fonts and every core component
+npx shadcn@latest add @ephemera/button    # or one at a time
 ```
 
 ## What's included
