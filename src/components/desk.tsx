@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { art } from "@/lib/art";
 import { Draggable } from "./site";
-import { photo } from "./demos";
 import { Receipt } from "@/registry/ephemera/receipt";
 import { Ticket } from "@/registry/ephemera/ticket";
 import { BoardingPass } from "@/registry/ephemera/boarding-pass";
@@ -62,7 +62,7 @@ export function DeskPieces() {
         />
       </Draggable>
       <Draggable x="78%" y="5%" rotate={7}>
-        <Polaroid src={photo(1015)} alt="River valley at dusk" caption="the desk, 2026" width={220} rotate={0} tape />
+        <Polaroid src={art.lake} alt="A lake at sunset" caption="the desk, 2026" width={220} rotate={0} tape />
       </Draggable>
       <Draggable x="35%" y="58%" rotate={-2} className="w-[340px] max-w-full">
         <Envelope to="for you" seal={<WaxSeal size={58}>E</WaxSeal>}>
@@ -78,7 +78,7 @@ export function DeskPieces() {
         </StickyNote>
       </Draggable>
       <Draggable x="84%" y="58%" rotate={8}>
-        <PostageStamp src={photo(1080, 400)} alt="Strawberries" value="€0" label="POSTE RIPE" width={130} postmark={{ city: "Anywhere", date: "12 OCT 26" }} />
+        <PostageStamp src={art.fruit} alt="Strawberries" value="€0" label="POSTE RIPE" width={130} postmark={{ city: "Anywhere", date: "12 OCT 26" }} />
       </Draggable>
       <Draggable x="5%" y="74%" rotate={0}>
         <RubberStamp ink="#e2574c" sub="no ai slop inside" rotate={-9} style={{ mixBlendMode: "normal" }}>
@@ -99,17 +99,22 @@ export function CardPreview({ slug }: { slug: string }) {
   switch (slug) {
     case "paper-theme":
       return (
-        <div className="flex -space-x-10">
+        <div className="flex -space-x-12">
           {PAPERS.map((p, i) => (
             <div
               key={p.id}
               data-paper={p.id}
-              className="paper flex h-[150px] w-[92px] items-end rounded-[3px] p-2.5 shadow-[0_8px_18px_-6px_rgb(0_0_0/.55)]"
-              style={{ rotate: `${(i - 2.5) * 4}deg`, translate: `0 ${Math.abs(i - 2.5) * 6}px` }}
+              className="paper relative h-[168px] w-[104px] rounded-[4px] shadow-[0_10px_20px_-8px_rgb(0_0_0/.55)]"
+              style={{ rotate: `${(i - 2.5) * 5}deg`, translate: `0 ${Math.abs(i - 2.5) * 6}px` }}
             >
-              <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-(--ink)" style={{ fontFamily: "var(--font-type)" }}>
+              {/* label runs up the left edge, the part of each card that stays visible in the fan */}
+              <span
+                className="absolute bottom-3 left-2.5 text-[9.5px] font-bold uppercase tracking-[0.2em] text-(--ink) [writing-mode:vertical-rl] rotate-180"
+                style={{ fontFamily: "var(--font-type)" }}
+              >
                 {p.label}
               </span>
+              <span className="absolute right-2.5 top-2.5 size-2.5 rounded-full" style={{ background: p.pen }} />
             </div>
           ))}
         </div>
@@ -213,11 +218,11 @@ export function CardPreview({ slug }: { slug: string }) {
     case "polaroid":
       return (
         <div className="translate-y-[12%] scale-[.68]">
-          <Polaroid src={photo(1025, 400)} alt="" caption="meet biscuit" develop={false} rotate={-4} />
+          <Polaroid src={art.cottage} alt="" caption="home, finally" develop={false} rotate={-4} />
         </div>
       );
     case "postage-stamp":
-      return <PostageStamp src={photo(1039, 300)} alt="" width={120} rotate={-4} postmark />;
+      return <PostageStamp src={art.meadow} alt="" width={120} rotate={-4} postmark />;
     case "rubber-stamp":
       return (
         <RubberStamp ink="red" sub="12 OCT 2026" animate={false} style={{ mixBlendMode: "normal" }}>

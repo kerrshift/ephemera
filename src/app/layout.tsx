@@ -56,7 +56,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ThemeScript />
       </head>
       <body className="flex min-h-full flex-col">
-        <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-5 sm:px-6">
+        <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/80 backdrop-blur-md supports-[backdrop-filter]:bg-bg/70">
+          <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
           <Link href="/" className="flex items-center gap-2.5">
             <span aria-hidden className="size-[18px] -rotate-6 rounded-[3px] bg-accent shadow-[2px_2px_0_var(--highlight)]" />
             <span className="font-head text-[23px] font-bold leading-none tracking-[-0.04em]">ephemera</span>
@@ -85,6 +86,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </a>
             <ThemeToggle />
           </nav>
+          </div>
         </header>
         <main className="flex-1">{children}</main>
         <footer className="mt-24 border-t border-line">

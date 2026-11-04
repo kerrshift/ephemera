@@ -4,12 +4,27 @@ import * as React from "react";
 import { Popover as PopoverPrimitive } from "radix-ui";
 import { Calendar } from "./calendar";
 
+// Popups render in a layer on <body> that copies the paper type of the nearest [data-paper]
+// element (and follows it if it changes). That keeps their theme without trapping them inside the
+// container's stacking context, so sticky headers can't cover them.
 function usePaperContainer() {
   const anchor = React.useRef<HTMLSpanElement>(null);
   const [container, setContainer] = React.useState<HTMLElement | undefined>();
   React.useEffect(() => {
-    const el = anchor.current?.closest<HTMLElement>("[data-paper]");
-    setContainer(el && el !== document.documentElement ? el : undefined);
+    const source = anchor.current?.closest<HTMLElement>("[data-paper]");
+    if (!source || source === document.documentElement) return;
+    const layer = document.createElement("div");
+    layer.setAttribute("data-paper-layer", "");
+    const sync = () => layer.setAttribute("data-paper", source.getAttribute("data-paper") ?? "");
+    sync();
+    document.body.appendChild(layer);
+    const observer = new MutationObserver(sync);
+    observer.observe(source, { attributes: true, attributeFilter: ["data-paper"] });
+    setContainer(layer);
+    return () => {
+      observer.disconnect();
+      layer.remove();
+    };
   }, []);
   return [anchor, container] as const;
 }

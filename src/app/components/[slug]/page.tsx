@@ -1,10 +1,11 @@
+import type * as React from "react";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { codeToHtml } from "shiki";
-import { docs, exportName, exportsOf, getDoc, sections } from "@/lib/docs";
+import { docs, exportName, exportsOf, getDoc, groupOf, navGroups } from "@/lib/docs";
 import { CopyButton, Demo, InstallCommand } from "@/components/site";
 import { JsonLd } from "@/components/json-ld";
 import { creatorPerson, orgEntity, site } from "@/lib/site";
@@ -40,6 +41,48 @@ async function highlight(code: string, lang: "tsx" | "css" = "tsx") {
 
 async function source(file: string) {
   return readFile(path.join(process.cwd(), "src", "registry", "ephemera", path.basename(file)), "utf8");
+}
+
+function SectionTitle({ id, children }: { id: string; children: React.ReactNode }) {
+  return (
+    <h2 id={id} className="group mt-14 scroll-mt-24 font-head text-[22px] font-bold tracking-[-0.02em]">
+      <a href={`#${id}`} className="outline-none">
+        {children}
+        <span aria-hidden className="ml-2 text-muted opacity-0 transition-opacity group-hover:opacity-100">#</span>
+      </a>
+    </h2>
+  );
+}
+
+function SideNav({ current, columns = false }: { current: string; columns?: boolean }) {
+  return (
+    <div className={columns ? "grid grid-cols-2 gap-x-4 gap-y-5" : "space-y-6"}>
+      {navGroups.map((g) => (
+        <div key={g.title}>
+          <p className="mb-2 px-2 text-[11px] uppercase tracking-[0.2em] text-muted" style={{ fontFamily: "var(--font-type)" }}>
+            {g.title}
+          </p>
+          <ul className="space-y-px text-sm">
+            {g.items.map((d) => (
+              <li key={d.slug}>
+                <Link
+                  href={`/components/${d.slug}`}
+                  aria-current={d.slug === current ? "page" : undefined}
+                  className={`block rounded-md px-2 py-1.5 transition-colors ${
+                    d.slug === current
+                      ? "bg-card font-medium text-ink shadow-[inset_2px_0_0_var(--brand),0_0_0_1px_var(--line)]"
+                      : "text-muted hover:bg-card/60 hover:text-ink"
+                  }`}
+                >
+                  {d.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 function CodeBlock({ html, raw, title }: { html: string; raw: string; title: string }) {
@@ -102,64 +145,61 @@ export default async function ComponentPage({ params }: PageProps<"/components/[
   };
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-10 px-4 pb-10 pt-6 sm:px-6 lg:grid-cols-[180px_minmax(0,1fr)]">
+    <div className="mx-auto grid max-w-6xl gap-12 px-4 pb-16 sm:px-6 lg:grid-cols-[190px_minmax(0,1fr)]">
       <JsonLd data={structuredData} />
       <aside className="hidden lg:block">
-        <div className="sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto pb-6">
-          {[
-            { title: "Start here", items: docs.filter((d) => d.group === "theme") },
-            ...sections.map((sec) => ({ title: sec.title, items: sec.slugs.map((x) => getDoc(x)!).filter(Boolean) })),
-            { title: "Extras", items: docs.filter((d) => d.group === "extras") },
-          ].map((g) => (
-            <div key={g.title} className="mb-5">
-              <p className="mb-1.5 text-[11px] uppercase tracking-[0.2em] text-muted" style={{ fontFamily: "var(--font-type)" }}>
-                {g.title}
-              </p>
-              <ul className="space-y-0.5 text-sm">
-                {g.items.map((d) => (
-                  <li key={d.slug}>
-                    <Link
-                      href={`/components/${d.slug}`}
-                      className={`block rounded-md px-2 py-1 transition-colors ${
-                        d.slug === slug ? "bg-card font-medium text-ink shadow-[inset_2px_0_0_var(--brand)]" : "text-muted hover:text-ink"
-                      }`}
-                    >
-                      {d.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        {/* sits under the 64px sticky header and exactly fills the rest of the screen, so every link is reachable */}
+        <nav aria-label="Components" className="sticky top-16 h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain pb-10 pt-8 pr-2 [scrollbar-width:thin]">
+          <SideNav current={slug} />
+        </nav>
       </aside>
 
-      <article className="min-w-0">
-        <h1 className="font-head text-[44px] font-bold leading-none tracking-[-0.04em] sm:text-[60px]">{doc.title}</h1>
-        <p className="mt-3 max-w-2xl text-[17px] text-muted">{doc.description}</p>
+      <article className="min-w-0 pt-8">
+        <details key={slug} className="group mb-6 rounded-xl border border-line bg-card lg:hidden">
+          <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-medium [&::-webkit-details-marker]:hidden">
+            <span>
+              <span className="text-muted">Browse components</span> · {doc.title}
+            </span>
+            <svg aria-hidden viewBox="0 0 16 16" className="size-4 text-muted transition-transform group-open:rotate-180" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m4 6 4 4 4-4" />
+            </svg>
+          </summary>
+          <div className="max-h-[60dvh] overflow-y-auto border-t border-line px-4 py-4">
+            <SideNav current={slug} columns />
+          </div>
+        </details>
+
+        <p className="flex items-center gap-2 text-[12px] uppercase tracking-[0.2em] text-muted" style={{ fontFamily: "var(--font-type)" }}>
+          <Link href="/" className="hover:text-ink">Docs</Link>
+          <span aria-hidden>/</span>
+          <span className="text-accent">{groupOf(slug)}</span>
+        </p>
+        <h1 className="mt-3 font-head text-[44px] font-bold leading-[0.95] tracking-[-0.04em] sm:text-[60px]">{doc.title}</h1>
+        <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-muted">{doc.description}</p>
 
         <Demo slug={slug} replay={doc.group === "extras"} className="mat mt-8 flex min-h-[420px] items-center overflow-hidden rounded-2xl px-4 py-14 sm:px-10" />
 
-        <h2 className="mt-12 text-lg font-semibold">Install</h2>
-        <div className="mt-3">
+        <SectionTitle id="install">Install</SectionTitle>
+        <div className="mt-3 space-y-2">
           <InstallCommand name={slug} />
+          <InstallCommand name={slug} url />
         </div>
-        <p className="mt-3 text-sm text-muted">
-          Or copy the source below into <code className="text-ink">{fileName}</code>.{" "}
-          {doc.group === "core"
-            ? "Core components need the Paper Theme and Radix where noted."
-            : doc.group === "extras"
-              ? "It needs React and Tailwind, nothing else."
-              : "Then import it in your global CSS."}
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          {doc.group === "theme"
+            ? "The CLI merges the theme into your global CSS and installs the five fonts, so there's nothing to import by hand."
+            : doc.group === "core"
+              ? "Installs the component, its Radix dependency and the paper theme if you don't have it yet."
+              : "A single self-contained file that needs only React and Tailwind."}{" "}
+          Prefer copying? The full source is <a href="#source" className="text-ink underline decoration-line underline-offset-4 hover:decoration-ink">below</a>.
         </p>
 
-        <h2 className="mt-12 text-lg font-semibold">Usage</h2>
+        <SectionTitle id="usage">Usage</SectionTitle>
         <div className="mt-3">
           <CodeBlock html={usageHtml} raw={usage} title={isTheme ? "setup" : "example.tsx"} />
         </div>
         {doc.notes && <p className="mt-3 text-sm text-muted">{doc.notes}</p>}
 
-        <h2 className="mt-12 text-lg font-semibold">Props</h2>
+        <SectionTitle id="props">Props</SectionTitle>
         <div className="mt-3 overflow-x-auto rounded-xl border border-line">
           <table className="w-full min-w-[560px] text-left text-sm">
             <thead className="bg-card text-muted">
@@ -190,26 +230,27 @@ export default async function ComponentPage({ params }: PageProps<"/components/[
         </div>
         <p className="mt-3 text-sm text-muted">Any other props are passed to the root element.</p>
 
-        <h2 className="mt-12 text-lg font-semibold">Fonts</h2>
+        <SectionTitle id="fonts">Fonts</SectionTitle>
         <p className="mt-2 text-sm leading-relaxed text-muted">
-          Components read optional CSS variables and fall back to system fonts:{" "}
-          <code className="text-ink">--font-display</code>, <code className="text-ink">--font-receipt</code>,{" "}
-          <code className="text-ink">--font-type</code>, <code className="text-ink">--font-hand</code> and{" "}
-          <code className="text-ink">--font-stamp</code>. This site uses Fraunces, IBM Plex Mono, Courier Prime, Caveat and
-          Anton.
+          Installed automatically with the paper theme: Fraunces (<code className="text-ink">--font-display</code>), IBM Plex
+          Mono (<code className="text-ink">--font-receipt</code>), Courier Prime (<code className="text-ink">--font-type</code>),
+          Caveat (<code className="text-ink">--font-hand</code>) and Anton (<code className="text-ink">--font-stamp</code>).
+          Override any of those variables to use your own fonts.
         </p>
 
-        <h2 className="mt-12 text-lg font-semibold">Source</h2>
+        <SectionTitle id="source">Source</SectionTitle>
         <div className="mt-3">
           <CodeBlock html={srcHtml} raw={src} title={fileName} />
         </div>
 
-        <nav className="mt-14 flex justify-between gap-4 border-t border-line pt-6 text-sm">
-          <Link href={`/components/${prev.slug}`} className="text-muted hover:text-ink">
-            ← {prev.title}
+        <nav aria-label="More components" className="mt-16 grid gap-3 border-t border-line pt-8 sm:grid-cols-2">
+          <Link href={`/components/${prev.slug}`} className="group rounded-xl border border-line bg-card px-5 py-4 transition-colors hover:border-ink/30">
+            <span className="text-xs text-muted">← Previous</span>
+            <span className="mt-1 block font-medium group-hover:text-accent">{prev.title}</span>
           </Link>
-          <Link href={`/components/${next.slug}`} className="text-muted hover:text-ink">
-            {next.title} →
+          <Link href={`/components/${next.slug}`} className="group rounded-xl border border-line bg-card px-5 py-4 text-right transition-colors hover:border-ink/30">
+            <span className="text-xs text-muted">Next →</span>
+            <span className="mt-1 block font-medium group-hover:text-accent">{next.title}</span>
           </Link>
         </nav>
       </article>

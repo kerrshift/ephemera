@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { art } from "@/lib/art";
 import { Framed } from "./paper-demos";
 import { Button } from "@/registry/ephemera/button";
 import { Input, Label } from "@/registry/ephemera/input";
@@ -42,7 +43,6 @@ import {
   PaginationPrevious,
 } from "@/registry/ephemera/pagination";
 
-const photo = (id: number, size = 600) => `https://picsum.photos/id/${id}/${size}/${size}`;
 
 // fixed so the server and client render the same month
 const OCT = new Date(2026, 9, 12);
@@ -360,22 +360,22 @@ export const moreDemos: Record<string, () => React.ReactNode> = {
     <Framed>
       <div className="flex flex-wrap items-end justify-center gap-6">
         <Avatar size="sm">
-          <AvatarImage src={photo(64, 120)} alt="" />
+          <AvatarImage src={art.portrait1} alt="" />
           <AvatarFallback>AL</AvatarFallback>
         </Avatar>
         <Avatar>
-          <AvatarImage src={photo(65, 160)} alt="" />
+          <AvatarImage src={art.portrait2} alt="" />
           <AvatarFallback>SO</AvatarFallback>
         </Avatar>
         <Avatar size="lg">
           <AvatarFallback>AL</AvatarFallback>
         </Avatar>
         <Avatar size="lg" shape="postmark">
-          <AvatarImage src={photo(91, 200)} alt="" />
+          <AvatarImage src={art.portrait3} alt="" />
           <AvatarFallback>GM</AvatarFallback>
         </Avatar>
         <Avatar size="xl">
-          <AvatarImage src={photo(177, 240)} alt="" />
+          <AvatarImage src={art.portrait4} alt="" />
           <AvatarFallback>EP</AvatarFallback>
         </Avatar>
       </div>
@@ -663,9 +663,9 @@ export function MorePreview({ slug }: { slug: string }) {
     case "avatar":
       return (
         <div data-paper="cream" className="flex items-end gap-4">
-          <Avatar><AvatarImage src={photo(64, 120)} alt="" /><AvatarFallback>AL</AvatarFallback></Avatar>
+          <Avatar><AvatarImage src={art.portrait1} alt="" /><AvatarFallback>AL</AvatarFallback></Avatar>
           <Avatar size="lg"><AvatarFallback>SO</AvatarFallback></Avatar>
-          <Avatar size="lg" shape="postmark"><AvatarImage src={photo(91, 160)} alt="" /><AvatarFallback>GM</AvatarFallback></Avatar>
+          <Avatar size="lg" shape="postmark"><AvatarImage src={art.portrait3} alt="" /><AvatarFallback>GM</AvatarFallback></Avatar>
         </div>
       );
     case "alert":

@@ -358,3 +358,54 @@ function Todo() {
     </ul>
   );
 }
+
+/** The six paper types fanned out like swatches. Picking one switches every PaperSheet in the same PaperProvider. */
+export function PaperFan() {
+  const [paper, setPaper] = React.useContext(PaperContext);
+  const n = PAPERS.length;
+  return (
+    <div role="radiogroup" aria-label="Paper type" className="relative mx-auto h-[400px] w-full max-w-[480px]">
+      {PAPERS.map((p, i) => {
+        const offset = i - (n - 1) / 2;
+        const active = paper === p.id;
+        return (
+          <button
+            key={p.id}
+            type="button"
+            role="radio"
+            aria-checked={active}
+            aria-label={`${p.label} paper`}
+            onClick={() => setPaper(p.id)}
+            data-paper={p.id}
+            className="paper group absolute bottom-10 left-1/2 flex h-[250px] w-[170px] cursor-pointer flex-col justify-between rounded-[6px] p-4 text-left text-(--ink) outline-none transition-[translate,rotate,box-shadow] duration-300 ease-[cubic-bezier(.2,.8,.2,1)] focus-visible:ring-2 focus-visible:ring-accent"
+            style={{
+              // a hand of cards: pivot far below the cards so they spread evenly around one point
+              translate: `calc(-50% + ${offset * 16}px) ${active ? -30 : 0}px`,
+              rotate: `${offset * 9}deg`,
+              transformOrigin: "50% 170%",
+              zIndex: active ? 20 : i + 1,
+              boxShadow: active
+                ? "0 30px 50px -18px rgb(0 0 0 / .45), 0 0 0 2px var(--brand)"
+                : "0 18px 34px -16px rgb(0 0 0 / .4), 0 0 0 1px rgb(0 0 0 / .06)",
+            }}
+          >
+            <span className="flex items-start justify-between">
+              <span className="text-[10px] font-bold uppercase tracking-[0.22em]" style={{ fontFamily: "var(--font-type)" }}>
+                {p.label}
+              </span>
+              <span className="size-3 rounded-full" style={{ background: p.pen, boxShadow: "inset 0 0 0 1px rgb(0 0 0 / .2)" }} />
+            </span>
+            <span>
+              <span className="block text-[52px] leading-none" style={{ fontFamily: "var(--font-display)" }}>
+                Aa
+              </span>
+              <span className="mt-3 block h-px bg-(--rule)" />
+              <span className="mt-2.5 block h-px bg-(--rule)" />
+              <span className="mt-2.5 block h-px w-2/3 bg-(--rule)" />
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}

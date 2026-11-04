@@ -326,3 +326,14 @@ export const exportsOf: Record<string, string[]> = {
 
 export const exportName = (slug: string) =>
   slug.replace(/(^|-)(\w)/g, (_, __, c: string) => c.toUpperCase());
+
+/** Docs navigation, shared by the desktop sidebar and the mobile menu. */
+export const navGroups: { title: string; items: Doc[] }[] = [
+  { title: "Start here", items: docs.filter((d) => d.group === "theme") },
+  ...sections.map((sec) => ({ title: sec.title, items: sec.slugs.map((x) => getDoc(x)!).filter(Boolean) })),
+  { title: "Extras", items: docs.filter((d) => d.group === "extras") },
+];
+
+/** Which nav group a page belongs to, for breadcrumbs. */
+export const groupOf = (slug: string) => navGroups.find((g) => g.items.some((d) => d.slug === slug))?.title ?? "Docs";
+

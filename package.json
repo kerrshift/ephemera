@@ -49,7 +49,7 @@
     "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
-    "next": "16.4.0",
+    "next": "16.4.5",
     "radix-ui": "^1.8.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",

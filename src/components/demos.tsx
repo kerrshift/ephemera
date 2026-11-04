@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { art } from "@/lib/art";
 import { Receipt } from "@/registry/ephemera/receipt";
 import { Ticket } from "@/registry/ephemera/ticket";
 import { BoardingPass } from "@/registry/ephemera/boarding-pass";
@@ -13,7 +14,6 @@ import { StickyNote } from "@/registry/ephemera/sticky-note";
 import { coreDemos } from "./paper-demos";
 import { moreDemos } from "./more-demos";
 
-export const photo = (id: number, size = 600) => `https://picsum.photos/id/${id}/${size}/${size}`;
 
 export const demos: Record<string, () => React.ReactNode> = {
   ...coreDemos,
@@ -50,14 +50,14 @@ export const demos: Record<string, () => React.ReactNode> = {
   ),
   polaroid: () => (
     <div className="flex flex-wrap items-start justify-center gap-6">
-      <Polaroid src={photo(1015)} alt="River valley" caption="road trip '26" rotate={-4} tape />
-      <Polaroid src={photo(1025)} alt="A pug in a blanket" caption="meet biscuit" rotate={3} />
+      <Polaroid src={art.lake} alt="A lake at sunset" caption="road trip '26" rotate={-4} tape />
+      <Polaroid src={art.cottage} alt="A cottage on a hill" caption="home, finally" rotate={3} />
     </div>
   ),
   "postage-stamp": () => (
     <div className="flex flex-wrap items-center justify-center gap-10">
-      <PostageStamp src={photo(1039, 400)} alt="Waterfall" value="42¢" rotate={-3} />
-      <PostageStamp src={photo(1080, 400)} alt="Strawberries" value="€1" label="POSTE RIPE" postmark={{ city: "Lisbon", date: "12 OCT 26" }} rotate={4} />
+      <PostageStamp src={art.meadow} alt="A waterfall in a meadow" value="42¢" rotate={-3} />
+      <PostageStamp src={art.fruit} alt="Strawberries" value="€1" label="POSTE RIPE" postmark={{ city: "Lisbon", date: "12 OCT 26" }} rotate={4} />
     </div>
   ),
   "rubber-stamp": () => (

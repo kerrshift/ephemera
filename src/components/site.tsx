@@ -91,23 +91,45 @@ export function CopyButton({ text, label = "Copy", className = "" }: { text: str
           setTimeout(() => setCopied(false), 1400);
         } catch {}
       }}
-      className={`rounded-md border border-line bg-card px-2.5 py-1 text-xs text-muted transition-colors hover:text-ink ${className}`}
+      aria-live="polite"
+      className={`shrink-0 cursor-pointer rounded-md border px-2.5 py-1 text-xs transition-colors ${
+        className || "border-line bg-card text-muted hover:text-ink"
+      }`}
     >
       {copied ? "Copied ✓" : label}
     </button>
   );
 }
 
-/** `npx shadcn add <site>/r/<name>.json` */
-export function InstallCommand({ name }: { name: string }) {
-  const cmd = `npx shadcn@latest add ${site.url}/r/${name}.json`;
+/** Copyable `npx shadcn add` line: the @ephemera short name by default, or the full registry URL. */
+export function InstallCommand({
+  name,
+  url = false,
+  onDark = false,
+  className = "",
+}: {
+  name: string;
+  url?: boolean;
+  /** For use on the green mat or other dark surfaces, in either site theme. */
+  onDark?: boolean;
+  className?: string;
+}) {
+  const target = url ? `${site.url}/r/${name}.json` : `@ephemera/${name}`;
+  const cmd = `npx shadcn@latest add ${target}`;
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-line bg-[var(--code-bg)] py-2 pl-4 pr-2">
-      <code className="min-w-0 flex-1 overflow-x-auto whitespace-nowrap text-[13px]" style={{ fontFamily: "var(--font-receipt)" }}>
-        <span className="text-muted">$ </span>
-        {cmd}
+    <div
+      className={`group flex items-center gap-3 rounded-lg border py-2 pl-4 pr-2 ${
+        onDark ? "border-white/15 bg-black/35 text-white backdrop-blur" : "border-line bg-[var(--code-bg)]"
+      } ${className}`}
+    >
+      <code className="min-w-0 flex-1 overflow-x-auto whitespace-nowrap text-[13px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ fontFamily: "var(--font-receipt)" }}>
+        <span className={`select-none ${onDark ? "text-white/50" : "text-muted"}`}>$ </span>
+        npx shadcn@latest add <span className={onDark ? "text-[#ffe94d]" : "text-accent"}>{target}</span>
       </code>
-      <CopyButton text={cmd} />
+      <CopyButton
+        text={cmd}
+        className={onDark ? "border-white/20 bg-white/10 text-white/80 hover:text-white" : ""}
+      />
     </div>
   );
 }
